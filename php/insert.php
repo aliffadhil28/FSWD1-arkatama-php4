@@ -1,3 +1,10 @@
+<?php 
+    session_start();
+    if ($_COOKIE["checkLogin"] == false) {
+        header("Location:./login.php");
+    }
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>

@@ -1,7 +1,10 @@
 <?php 
 
 include 'connect_db.php';
-
+// session_start();
+if ($_COOKIE["checkLogin"] == false) {
+    header("Location:./login.php");
+}
 if (isset($_POST['submit'])) {
     $targetDir = "../storage/";
     $targetFile = $targetDir.basename($_FILES["avatar"]["name"]);
@@ -14,8 +17,8 @@ if (isset($_POST['submit'])) {
         $phone = $_POST['phone'];
         $address = $_POST['address'];
     }
-    $sql = "INSERT INTO users (name, role, password, email, phone, address, avatar) 
-        VALUES ('$name', '$role', '$password', '$email', '$phone', '$address', '$targetFile')";
+    $sql = "INSERT INTO users (name, role, password, email, phone, address, avatar, created_at, updated_at) 
+        VALUES ('$name', '$role', '$password', '$email', '$phone', '$address', '$targetFile',NOW(),NOW())";
 
     if (mysqli_query($conn,$sql)) {
         echo "<div class='alert alert-success alert-dismissible fade show' role='alert'>

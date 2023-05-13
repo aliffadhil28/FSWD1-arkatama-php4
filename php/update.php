@@ -1,7 +1,10 @@
 <?php 
 
 include 'connect_db.php';
-
+// session_start();
+    if ($_COOKIE["checkLogin"] == false) {
+        header("Location:./login.php");
+    }
 if (isset($_POST['submit'])) {
     $targetDir = "../storage/";
     $targetFile = $targetDir.basename($_FILES["avatar"]["name"]);

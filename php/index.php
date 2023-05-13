@@ -1,10 +1,9 @@
 <?php 
     include 'connect_db.php'; 
-    // $msg = $_GET['msg'];
-    // if(isset($msg))
-    // {
-    //     echo $msg;
-    // }
+    session_start();
+    if ($_COOKIE["checkLogin"] == false) {
+        header("Location:./login.php");
+    }
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -16,59 +15,90 @@
     <title>Data Pengguna</title>
     <style>
         body{
-            padding: 50px;
+            /* padding: 50px; */
         }
         #btn_tambah{
             margin-top: 20px;
         }
+        .navbar-nav{
+            float: right;
+        }
     </style>
 </head>
 <body>
-    <table class="table table-light table-stripped">
-        <thead>
-            <tr>
-                <th scope="col">#</th>
-                <th scope="col">Aksi</th>
-                <th scope="col">Avatar</th>
-                <th scope="col">Nama</th>
-                <th scope="col">Email</th>
-                <th scope="col">Phone Number</th>
-                <th scope="col">Address</th>
-                <th scope="col">Role</th>
-            </tr>
-        </thead>
-        <tbody>
-            <?php
-                $sql = "SELECT * FROM users";
-                $result = mysqli_query($conn, $sql);
-                $rows = mysqli_fetch_all($result, MYSQLI_ASSOC);
-                $i=1;
-                foreach ($rows as $row) {
-                    echo "<tr>
-                            <th scope='row'>" .$i++. "</td>
-                            <td>".
-                                "<button type='button' class='btn btn-primary'>
-                                    <a class='text-light' href=detail.php?id=".$row['id'].">Detail</a>
-                                </button>
-                                <button type='button' class='btn btn-warning'>
-                                    <a class='text-light' href=edit.php?id=".$row['id'].">Edit</a>
-                                </button>
-                                <button type='button' class='btn btn-danger'>
-                                    <a class='text-light' href=delete.php?id=".$row['id'].">Delete</a>
-                                </button>
-                                " 
-                                ."</td>
-                            <td> <img src=". $row["avatar"] . " width=80px></td>
-                            <td>" . $row["name"] . "</td>
-                            <td>" . $row["email"] . "</td>
-                            <td>" . $row["phone"] . "</td>
-                            <td>" . $row["address"] . "</td>
-                            <td>" . $row["role"] . "</td>
-                        </tr>";
-                }
-            ?>
-        </tbody>
-    </table>
+    <nav class="navbar nav justify-content-end navbar-dark bg-dark navbar-expand-md pr-5">
+        <a class="navbar-brand" href="#">
+            <?php echo $_SESSION['name'];?>
+        </a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-list-4" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="float-right">
+            <div class="collapse navbar-collapse" id="navbar-list-4">
+                <ul class="navbar-nav mr-0">
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <img src=<?php echo $_SESSION['avatar']?> width="40" height="40" class="rounded-circle">
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                            <a class="dropdown-item" href="detail.php?id=<?php echo $_SESSION['id_user']?>">Dashboard</a>
+                            <a class="dropdown-item" href="#">Edit Profile</a>
+                            <a class="dropdown-item" href="logout.php">Log Out</a>
+                        </div>
+                    </li>   
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <h1 class="my-4">Data Pengguna</h1>
+    <div class="container-lg">
+        <table class="table table-light table-stripped">
+            <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Aksi</th>
+                    <th scope="col">Avatar</th>
+                    <th scope="col">Nama</th>
+                    <th scope="col">Email</th>
+                    <th scope="col">Phone Number</th>
+                    <th scope="col">Address</th>
+                    <th scope="col">Role</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php
+                    $sql = "SELECT * FROM users";
+                    $result = mysqli_query($conn, $sql);
+                    $rows = mysqli_fetch_all($result, MYSQLI_ASSOC);
+                    $i=1;
+                    foreach ($rows as $row) {
+                        echo "<tr>
+                                <th scope='row'>" .$i++. "</td>
+                                <td>".
+                                    "<button type='button' class='btn btn-primary'>
+                                        <a class='text-light' href=detail.php?id=".$row['id'].">Detail</a>
+                                    </button>
+                                    <button type='button' class='btn btn-warning'>
+                                        <a class='text-light' href=edit.php?id=".$row['id'].">Edit</a>
+                                    </button>
+                                    <button type='button' class='btn btn-danger'>
+                                        <a class='text-light' href=delete.php?id=".$row['id'].">Delete</a>
+                                    </button>
+                                    " 
+                                    ."</td>
+                                <td> <img src=". $row["avatar"] . " width=80px></td>
+                                <td>" . $row["name"] . "</td>
+                                <td>" . $row["email"] . "</td>
+                                <td>" . $row["phone"] . "</td>
+                                <td>" . $row["address"] . "</td>
+                                <td>" . $row["role"] . "</td>
+                            </tr>";
+                    }
+                ?>
+            </tbody>
+        </table>
+    </div>
 
     <a id="btn_tambah" class="btn btn-dark" href="insert.php">Tambah Data</a>
     

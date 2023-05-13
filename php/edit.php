@@ -1,6 +1,10 @@
 <?php 
  include 'connect_db.php';
  $id = $_GET['id'];
+//  session_start();
+ if ($_COOKIE["checkLogin"] == false) {
+    header("Location:./login.php");
+ }
 ?>
 
 <!DOCTYPE html>

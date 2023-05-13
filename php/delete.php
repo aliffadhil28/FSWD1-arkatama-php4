@@ -1,6 +1,10 @@
 <?php
 
 include 'connect_db.php';
+// session_start();
+if ($_COOKIE["checkLogin"] == false) {
+    header("Location:./login.php");
+}
 
 $id = $_GET['id']; 
 $sql = "SELECT avatar FROM users WHERE id = '$id'";

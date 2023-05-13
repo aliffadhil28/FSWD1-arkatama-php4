@@ -11,6 +11,5 @@ $conn = new mysqli($dbservername, $dbusername, $dbpassword, $dbname);
 if ($conn->connect_error) {
 die("Connection failed: " . $conn->connect_error);
 }else{
-    echo "<h1>Data Pengguna</h1>";
-    
+    // echo "<h1>Data Pengguna</h1>";
 }
